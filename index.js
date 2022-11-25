@@ -14,6 +14,7 @@ app.get("/books-categories", (req, res) => {
   res.send(categories);
 });
 
+// listen
 app.listen(port, () => {
   console.log("boook sop");
 });
