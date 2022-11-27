@@ -1,53 +1,58 @@
 const express = require("express");
-const app = express();
 const cors = require("cors");
-const { MongoClient, ServerApiVersion } = require('mongodb');
+const { MongoClient, ServerApiVersion } = require("mongodb");
+require("dotenv").config();
 const port = process.env.PORT || 5000;
 
+const app = express();
+
+// middleware
 app.use(cors());
 app.use(express.json());
 
-
-
-
-const uri = "mongodb+srv://<username>:<password>@cluster0.8mgm9lb.mongodb.net/?retryWrites=true&w=majority";
-const client = new MongoClient(uri, { useNewUrlParser: true, useUnifiedTopology: true, serverApi: ServerApiVersion.v1 });
-client.connect(err => {
-  const collection = client.db("test").collection("devices");
-  // perform actions on the collection object
-  client.close();
+const uri = `mongodb+srv://${process.env.DB_USER}:${process.env.DB_PASS}@cluster0.8mgm9lb.mongodb.net/?retryWrites=true&w=majority`;
+const client = new MongoClient(uri, {
+  useNewUrlParser: true,
+  useUnifiedTopology: true,
+  serverApi: ServerApiVersion.v1,
 });
 
+async function run() {
+  try {
+    const categoriesCollection = client
+      .db("bookWorm")
+      .collection("books-categories");
+    const productsCollection = client.db("bookWorm").collection("products");
 
-const categories = require("./data/categories.json");
-const books = require("./data/products.json");
-
-// categories api call
-app.get("/", (req, res) => {
-  res.send("new api run");
-});
-
-// product api call
-app.get("/books-categories", (req, res) => {
-  res.send(categories);
-});
-
-app.get("/category/:id", (req, res) => {
-  const id = req.params.id;
-  if (id === "09") {
-    res.send(books);
-  } else {
-    const category_books = books.filter((book) => book.category_id === id);
-    res.send(category_books);
+    // api start
+    // categories api
+    app.get("/books-categories", async (req, res) => {
+      const query = {};
+      const categories = await categoriesCollection.find(query).toArray();
+      res.send(categories);
+    });
+    // products api with id
+    app.get("/products/:id", async (req, res) => {
+      const id = req.params.id;
+      if (id === "09") {
+        query = {};
+        const products = await productsCollection.find(query).toArray();
+        res.send(products);
+      } else {
+        const filter = {
+          category_id: id,
+        };
+        const products = await productsCollection.find(filter).toArray();
+        res.send(products);
+      }
+    });
+  } finally {
   }
+}
+run().catch(console.log);
+
+app.get("/", async (req, res) => {
+  res.send("book server is running");
 });
 
-app.get("/books/:id", (req, res) => {
-  const id = req.params.id;
-  const selectedBook = books.find((b) => b.id === id);
-  res.send(selectedBook);
-});
-
-app.listen(port, () => {
-  console.log("boook sop");
-});
+app.listen(port, () => console.log(`book running on ${port}`));
