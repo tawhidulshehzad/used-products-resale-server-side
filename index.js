@@ -23,6 +23,7 @@ async function run() {
       .db("bookWorm")
       .collection("books-categories");
     const productsCollection = client.db("bookWorm").collection("products");
+    const bookingsCollection = client.db("bookWorm").collection("bookings");
 
     // api start
     // categories api
@@ -31,7 +32,7 @@ async function run() {
       const categories = await categoriesCollection.find(query).toArray();
       res.send(categories);
     });
-    // products api with id
+    // products api load form the home page
     app.get("/products/:id", async (req, res) => {
       const id = req.params.id;
       if (id === "09") {
@@ -45,6 +46,15 @@ async function run() {
         const products = await productsCollection.find(filter).toArray();
         res.send(products);
       }
+    });
+
+    // booking post
+
+    app.post("/bookings", async (req, res) => {
+      const booking = req.body;
+      console.log(booking);
+      const result = await bookingsCollection.insertOne(booking);
+      res.send(result);
     });
   } finally {
   }
