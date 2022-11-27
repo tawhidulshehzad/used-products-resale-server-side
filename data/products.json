@@ -1,6 +1,5 @@
 [
   {
-    "_id": "0282e0e58a5c404fbd15261f11c2ab6a",
     "category_id": "01",
     "name": "Hitler",
     "location": "dhaka",
@@ -12,7 +11,6 @@
     "img": "https://images.unsplash.com/photo-1547306843-f8fea4d65f9b?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxzZWFyY2h8M3x8aGlzdG9yeSUyMGJvb2tzfGVufDB8MHwwfHw%3D&auto=format&fit=crop&w=500&q=60"
   },
   {
-    "_id": "0282e0e58a5c404fbd15261f11c2ab6a",
     "category_id": "01",
     "name": "The Captive",
     "location": "dhaka",
@@ -24,7 +22,6 @@
     "img": "https://cdn.pixabay.com/photo/2016/01/15/15/29/books-1141910_960_720.jpg"
   },
   {
-    "_id": "0282e0e58a5c404fbd15261f11c2ab6a",
     "category_id": "01",
     "name": "The Prince",
     "location": "dhaka",
@@ -37,7 +34,6 @@
   },
 
   {
-    "_id": "0282e0e58a5c404fbd15261f11c2ab6a",
     "category_id": "02",
     "name": "Math Activities",
     "location": "dhaka",
@@ -49,7 +45,6 @@
     "img": "https://images.unsplash.com/photo-1588912914017-923900a34710?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxzZWFyY2h8MXx8bWF0aCUyMGJvb2t8ZW58MHx8MHx8&auto=format&fit=crop&w=500&q=60"
   },
   {
-    "_id": "0282e0e58a5c404fbd15261f11c2ab6a",
     "category_id": "02",
     "name": "Accounting",
     "location": "dhaka",
@@ -61,7 +56,6 @@
     "img": "https://images.unsplash.com/photo-1508169351866-777fc0047ac5?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxzZWFyY2h8Nnx8bWF0aCUyMGJvb2t8ZW58MHwwfDB8fA%3D%3D&auto=format&fit=crop&w=500&q=60"
   },
   {
-    "_id": "0282e0e58a5c404fbd15261f11c2ab6a",
     "category_id": "02",
     "name": "Calculus Books",
     "location": "dhaka",
@@ -73,7 +67,6 @@
     "img": "https://images.unsplash.com/photo-1506513083865-434a8a207e11?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxzZWFyY2h8N3x8bWF0aCUyMGJvb2t8ZW58MHwwfDB8fA%3D%3D&auto=format&fit=crop&w=500&q=60"
   },
   {
-    "_id": "0282e0e58a5c404fbd15261f11c2ab6a",
     "category_id": "03",
     "name": "Political science",
     "location": "dhaka",
@@ -85,7 +78,6 @@
     "img": "https://thumbs.dreamstime.com/b/book-title-political-science-office-93422911.jpg"
   },
   {
-    "_id": "0282e0e58a5c404fbd15261f11c2ab6a",
     "category_id": "03",
     "name": "Meciaveli",
     "location": "dhaka",
@@ -97,7 +89,6 @@
     "img": "https://images.unsplash.com/photo-1481624362406-b7817fa45ecf?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxzZWFyY2h8MTZ8fHBsaXRpY2FsJTIwYm9va3xlbnwwfDB8MHx8&auto=format&fit=crop&w=500&q=60"
   },
   {
-    "_id": "0282e0e58a5c404fbd15261f11c2ab6a",
     "category_id": "03",
     "name": "1997 turmoil",
     "location": "dhaka",
