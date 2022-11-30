@@ -3,6 +3,7 @@ const cors = require("cors");
 const { MongoClient, ServerApiVersion, ObjectId } = require("mongodb");
 const jwt = require("jsonwebtoken");
 require("dotenv").config();
+const stripe = require("stripe")(process.env.STRIPE_SECRET_KEY);
 const port = process.env.PORT || 5000;
 
 const app = express();
@@ -45,6 +46,9 @@ async function run() {
     const productsCollection = client.db("bookWorm").collection("products");
     const bookingsCollection = client.db("bookWorm").collection("bookings");
     const usersCollection = client.db("bookWorm").collection("users");
+    const reportCollection = client.db("bookWorm").collection("report");
+
+    const paymentsCollection = client.db("bookWorm").collection("payments");
 
     // api start
     // categories api
@@ -79,6 +83,49 @@ async function run() {
       const bookings = await bookingsCollection.find(query).toArray();
       res.send(bookings);
     });
+    // payment stripe
+
+    app.post("/create-payment-intent", async (req, res) => {
+      const booking = req.body;
+      const price = booking.price;
+      const amount = price * 100;
+
+      const paymentIntent = await stripe.paymentIntents.create({
+        currency: "usd",
+        amount: amount,
+        payment_method_types: ["card"],
+      });
+      res.send({
+        clientSecret: paymentIntent.client_secret,
+      });
+    });
+
+    app.post("/payments", async (req, res) => {
+      const payment = req.body;
+      const result = await paymentsCollection.insertOne(payment);
+      const id = payment.bookingId;
+      const filter = { _id: ObjectId(id) };
+      const updatedDoc = {
+        $set: {
+          paid: true,
+          transactionId: payment.transactionId,
+        },
+      };
+      const updatedResult = await bookingsCollection.updateOne(
+        filter,
+        updatedDoc
+      );
+      res.send(result);
+    });
+
+    // booking payment methods
+
+    app.get("/bookings/:id", async (req, res) => {
+      const id = req.params.id;
+      const query = { _id: ObjectId(id) };
+      const booking = await bookingsCollection.findOne(query);
+      res.send(booking);
+    });
 
     // booking post
 
@@ -86,6 +133,25 @@ async function run() {
       const booking = req.body;
       console.log(booking);
       const result = await bookingsCollection.insertOne(booking);
+      res.send(result);
+    });
+    // report post
+    app.post("/report", async (req, res) => {
+      const report = req.body;
+      const result = await reportCollection.insertOne(report);
+      res.send(result);
+    });
+    // report get
+    app.get("/report", async (req, res) => {
+      const query = {};
+      const users = await reportCollection.find(query).toArray();
+      res.send(users);
+    });
+    // report delete
+    app.delete("/report/:id", async (req, res) => {
+      const id = req.params.id;
+      const query = { _id: ObjectId(id) };
+      const result = await reportCollection.deleteOne(query);
       res.send(result);
     });
 
@@ -145,6 +211,24 @@ async function run() {
       const updatedDoc = {
         $set: {
           role: "admin",
+        },
+      };
+      const result = await usersCollection.updateOne(
+        filter,
+        updatedDoc,
+        options
+      );
+      res.send(result);
+    });
+    // make sellers verifies
+    app.put("/users/seller/:id", verifyJWT, async (req, res) => {
+      const id = req.params.id;
+      console.log(ObjectId);
+      const filter = { _id: ObjectId(id) };
+      const options = { upsert: true };
+      const updatedDoc = {
+        $set: {
+          verify: "verified",
         },
       };
       const result = await usersCollection.updateOne(
